@@ -16,7 +16,7 @@
 
 <!--NOTIFICATIONS-->
 <section class="mt-4 py-3">
-  <div class="container">
+  <div class="container" style="max-width: 80%">
     <div class="col mx-auto">
       <div class="card">
         <div class="card-header text-center">
@@ -36,7 +36,7 @@
           <tbody>
             <% user.forEach(book => { %>
             <tr>
-              <td>You have issued <%=book.book_info.title%></td>
+              <td><%=book.book_info.title%></td>
               <td><%=book.book_info.author%></td>
               <td><%=book.book_info.issueDate.toDateString()%></td>
               <td><%=book.book_info.returnDate.toDateString()%></td>
@@ -73,6 +73,8 @@
                   aria-disabled="true"
                   >Return</a
                 >
+                <% } else { %> <% if (book.book_info.isRenewed) { %>
+                <!-- Code to execute if condition is true -->
                 <% } else { %>
                 <form
                   action="/books/<%=book.book_info.id%>/renew"
@@ -85,6 +87,8 @@
                     value="Renew"
                   />
                 </form>
+                <% } %>
+
                 <form
                   action="/books/return/<%=book.book_info.id%>"
                   method="POST"

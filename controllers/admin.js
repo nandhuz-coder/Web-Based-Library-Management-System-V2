@@ -1001,9 +1001,13 @@ exports.getDeclineReturn = async (req, res, next) => {
     const request = await Return.findById(req.params.id);
     const user = await User.findById(request.user_id.id);
     const book = await Book.findById(request.book_info.id);
-
+    const issue = await Issue.findOne({
+      "user_id.id": request.user_id.id,
+      "book_info.id": request.book_info.id,
+    });
     //remove book object ID from user
     await user.bookReturnInfo.pull(book._id);
+    issue.book_info.isReturn = false;
 
     //remove return document
     await request.deleteOne();
@@ -1024,6 +1028,7 @@ exports.getDeclineReturn = async (req, res, next) => {
     // await ensure to synchronously save all database alteration
     await user.save();
     await activity.save();
+    await issue.save();
 
     //redirect
     res.redirect("/admin/bookReturn/all/all/1");
