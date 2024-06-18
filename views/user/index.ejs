@@ -107,8 +107,35 @@
                 </td>
                 <td><%=activity.category%></td>
                 <td>
-                  <p>Issue : <%=activity.time.issueDate.toDateString()%></p>
-                  <p>Return : <%=activity.time.returnDate.toDateString()%></p>
+                  <p>Return : <%=activity.entryTime.toDateString()%></p>
+                </td>
+              </tr>
+              <% } else if(activity.category == 'Return apply') { %>
+              <tr>
+                <td>
+                  You have
+                  <span class="table-text">ready to return</span>
+                  <span style="color: rgb(41, 0, 135)" class="table-text"
+                    ><%=activity.info.title%></span
+                  >
+                </td>
+                <td><%=activity.category%></td>
+                <td>
+                  <p>Return : <%=activity.entryTime.toDateString()%></p>
+                </td>
+              </tr>
+              <% } else if(activity.category == 'Return decline') { %>
+              <tr>
+                <td>
+                  Admin have
+                  <span class="table-text">declined</span> the request to return
+                  <span style="color: rgb(41, 0, 135)" class="table-text"
+                    ><%=activity.info.title%></span
+                  >
+                </td>
+                <td><%=activity.category%></td>
+                <td>
+                  <p>Return : <%=activity.entryTime.toDateString()%></p>
                 </td>
               </tr>
               <% } else if(activity.category == 'Request') { %>

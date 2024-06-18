@@ -69,7 +69,7 @@ Whole app is divided into three modules.
 - Add new admin
 - Delete currently logged in admin profile
 - Apporval and decline request books
-- Accept and decline retuen request
+- Accept and decline return request
 
 ### User module functionalities
 
