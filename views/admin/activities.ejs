@@ -92,6 +92,20 @@
                 </td>
                 <td>Decline</td>
                 <td><%=activities[i].entryTime.toDateString()%></td>
+                <% } else if(activities[i].category =="Return apply") { %>
+                <td>
+                  <%=activities[i].user_id.username || 'This user'%> applied to
+                  return <%=activities[i].info.title%>
+                </td>
+                <td>Decline</td>
+                <td><%=activities[i].entryTime.toDateString()%></td>
+                <% } else if(activities[i].category =="Return decline") { %>
+                <td>
+                  Admin declined <%=activities[i].info.title%> request to return
+                  <%=activities[i].user_id.username || 'This user'%>
+                </td>
+                <td>Decline</td>
+                <td><%=activities[i].entryTime.toDateString()%></td>
                 <% } else if(activities[i].category =="Renew") { %>
                 <td>
                   <%=activities[i].user_id.username || 'This user'%> renewed

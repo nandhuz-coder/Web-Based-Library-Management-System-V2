@@ -102,6 +102,30 @@
                 </td>
                 <td>Request</td>
                 <td><%=activities[i].entryTime.toDateString()%></td>
+                <% } else if(activities[i].category =="Return apply") { %>
+                <td>
+                  <a
+                    href="/admin/users/profile/<%=activities[i].user_id.id%>"
+                    title="Visit profile"
+                  >
+                    <%=activities[i].user_id.username || 'This user'%>
+                  </a>
+                  requested to return <%=activities[i].info.title%>
+                </td>
+                <td>Return</td>
+                <td><%=activities[i].entryTime.toDateString()%></td>
+                <% } else if(activities[i].category =="Return decline") { %>
+                <td>
+                  <a
+                    href="/admin/users/profile/<%=activities[i].user_id.id%>"
+                    title="Visit profile"
+                  >
+                    <%=activities[i].user_id.username || 'This user'%>
+                  </a>
+                  admin declined <%=activities[i].info.title%>
+                </td>
+                <td>Return</td>
+                <td><%=activities[i].entryTime.toDateString()%></td>
                 <% } else if(activities[i].category =="Decline") { %>
                 <td>
                   Admin declined

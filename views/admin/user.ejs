@@ -57,11 +57,22 @@
           <% } else if(activities[i].category =="Decline") { %>
           <li class="list-group-item">
             Admin declined <%=activities[i].info.title%> request of
-            <%=user.username%>at <%=activities[i].entryTime.toDateString()%>
+            <%=user.username%> at <%=activities[i].entryTime.toDateString()%>
           </li>
           <% } else if(activities[i].category =="Renew") { %>
           <li class="list-group-item">
             <%=user.username%> renewed <%=activities[i].info.title%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].category =="Rturn apply") { %>
+          <li class="list-group-item">
+            <%=user.username%> return request <%=activities[i].info.title%> at
+            <%=activities[i].entryTime.toDateString()%>
+          </li>
+          <% } else if(activities[i].category =="Return decline") { %>
+          <li class="list-group-item">
+            admin denied <%=user.username%> return of
+            <%=activities[i].info.title%> at
             <%=activities[i].entryTime.toDateString()%>
           </li>
           <% } else if(activities[i].category =="Update Profile") { %>
