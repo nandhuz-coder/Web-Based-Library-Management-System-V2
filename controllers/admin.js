@@ -929,13 +929,12 @@ exports.postAdminReturn = async (req, res, next) => {
     1. fetch return doc by params.id
     2. fetch user by request.user_id
     3. fetch book by request.book_info
-    4. check user violation
-    5. check user book issued
-    6. check book stock
-    7. registering book issue
-    8. clearing request
-    9. logging activity
-    10 redirect('/admin/bookRequest/all/all/1)
+    4. fetch issue by request.book_info
+    5. remove book object ID from user
+    6. remove issue and return document
+    7. book stock arranged
+    8. logging activity
+    9. redirect('/admin/bookReturn/all/all/1)
  */
 
 exports.getAcceptReturn = async (req, res, next) => {
@@ -951,8 +950,12 @@ exports.getAcceptReturn = async (req, res, next) => {
     //remove book object ID from user
     await user.bookReturnInfo.pull(book._id);
     await user.bookIssueInfo.pull(book._id);
+
+    //remove issue and return document
     await issue.deleteOne();
     await request.deleteOne();
+
+    //addming book stock
     book.stock++;
 
     // logging the activity
