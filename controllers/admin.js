@@ -922,3 +922,61 @@ exports.postAdminReturn = async (req, res, next) => {
     return res.redirect("back");
   }
 };
+
+//admin -> Accept book Return
+/*  
+    ? work Flow
+    1. fetch return doc by params.id
+    2. fetch user by request.user_id
+    3. fetch book by request.book_info
+    4. check user violation
+    5. check user book issued
+    6. check book stock
+    7. registering book issue
+    8. clearing request
+    9. logging activity
+    10 redirect('/admin/bookRequest/all/all/1)
+ */
+
+exports.getAcceptReturn = async (req, res, next) => {
+  try {
+    const request = await Return.findById(req.params.id);
+    const user = await User.findById(request.user_id.id);
+    const book = await Book.findById(request.book_info.id);
+    const issue = await Issue.findOne({
+      "user_id.id": request.user_id.id,
+      "book_info.id": request.book_info.id,
+    });
+
+    //remove book object ID from user
+    await user.bookReturnInfo.pull(book._id);
+    await user.bookIssueInfo.pull(book._id);
+    await issue.deleteOne();
+    await request.deleteOne();
+    book.stock++;
+
+    // logging the activity
+    const activity = new Activity({
+      info: {
+        id: book._id,
+        title: book.title,
+      },
+      category: "Return",
+      user_id: {
+        id: user._id,
+        username: user.username,
+      },
+    });
+
+    // await ensure to synchronously save all database alteration
+    await user.save();
+    await book.save();
+    await activity.save();
+
+    //redirect
+    res.redirect("/admin/bookReturn/all/all/1");
+  } catch (err) {
+    console.log(err);
+    return res.redirect("back");
+  }
+};

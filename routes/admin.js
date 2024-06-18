@@ -193,6 +193,12 @@ router.post(
   adminController.postAdminReturn
 );
 
+// admin -> accept request books
+router.get(
+  "/admin/book/return/accept/:id",
+  middleware.isAdmin,
+  adminController.getAcceptReturn
+);
 // //admin -> notifications
 // router.get("/admin/notifications", (req, res) => {
 //    res.send("This route is still under development. will be added in next version");
