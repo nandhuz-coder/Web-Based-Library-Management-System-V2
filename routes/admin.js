@@ -185,6 +185,14 @@ router.get(
   middleware.isAdmin,
   adminController.getAdminReturn
 );
+
+// admin -> show request books
+router.post(
+  "/admin/bookReturn/:filter/:value/:page",
+  middleware.isAdmin,
+  adminController.postAdminReturn
+);
+
 // //admin -> notifications
 // router.get("/admin/notifications", (req, res) => {
 //    res.send("This route is still under development. will be added in next version");

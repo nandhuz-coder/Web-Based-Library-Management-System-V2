@@ -817,11 +817,11 @@ exports.getDeclineRequest = async (req, res, next) => {
   }
 };
 
-// admin -> get Request  book inventory working procedure
+// admin -> get Return  book inventory working procedure
 /*
     1. Construct search object
     2. Fetch books by search object
-    3. Render admin/request
+    3. Render admin/return
 */
 
 exports.getAdminReturn = async (req, res, next) => {
@@ -844,10 +844,10 @@ exports.getAdminReturn = async (req, res, next) => {
       searchObj[filter] = value;
     }
 
-    // get the Request counts
+    // get the Return counts
     const Request_count = await Return.find(searchObj).countDocuments();
 
-    // fetching Request
+    // fetching Return
     const request = await Return.find(searchObj)
       .skip(PER_PAGE * page - PER_PAGE)
       .limit(PER_PAGE)
@@ -863,6 +863,56 @@ exports.getAdminReturn = async (req, res, next) => {
     });
   } catch (err) {
     // console.log(err.messge);
+    return res.redirect("back");
+  }
+};
+
+// admin -> return book request inventory by search query working procedure
+/*
+    same as getAdminBookInventory method
+*/
+exports.postAdminReturn = async (req, res, next) => {
+  try {
+    let page = req.params.page || 1;
+    let filter = req.body.filter.toLowerCase();
+    const value = req.body.searchName;
+
+    if (value == "") {
+      req.flash(
+        "error",
+        "Search field is empty. Please fill the search field in order to get a result"
+      );
+      return res.redirect("back");
+    }
+    if (filter != "all") {
+      if (filter == "username") {
+        filter = user_id.filter;
+      } else {
+        filter = book_info.filter;
+      }
+    }
+    const searchObj = {};
+    searchObj[filter] = value;
+    // get the Request counts
+    const Request_count = await Return.find(searchObj).countDocuments();
+
+    // fetching Request
+    const request = await Return.find(searchObj)
+      .skip(PER_PAGE * page - PER_PAGE)
+      .limit(PER_PAGE)
+      .exec();
+
+    // rendering admin/Request Book Inventory
+    await res.render("admin/return", {
+      books: request,
+      current: page,
+      pages: Math.ceil(Request_count / PER_PAGE),
+      filter: filter,
+      value: value,
+      global: await global(),
+    });
+  } catch (err) {
+    // console.log(err.message);
     return res.redirect("back");
   }
 };
