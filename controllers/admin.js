@@ -585,13 +585,14 @@ exports.getAdminRequest = async (req, res, next) => {
 
     if (filter != "all") {
       if (filter == "username") {
-        filter = user_id.filter;
+        filter = `user_id.username`;
       } else {
-        filter = book_info.filter;
+        filter = `book_info.${filter}`;
       }
     }
 
     let searchObj = {};
+
     if (filter !== "all" && value !== "all") {
       // fetch books by search value and filter
       searchObj[filter] = value;
@@ -641,15 +642,18 @@ exports.postAdminRequest = async (req, res, next) => {
       );
       return res.redirect("back");
     }
+
     if (filter != "all") {
       if (filter == "username") {
-        filter = user_id.filter;
+        filter = `user_id.username`;
       } else {
-        filter = book_info.filter;
+        filter = `book_info.${filter}`;
       }
     }
+
     const searchObj = {};
     searchObj[filter] = value;
+
     // get the Request counts
     const Request_count = await Request.find(searchObj).countDocuments();
 
@@ -832,9 +836,9 @@ exports.getAdminReturn = async (req, res, next) => {
 
     if (filter != "all") {
       if (filter == "username") {
-        filter = user_id.filter;
+        filter = `user_id.username`;
       } else {
-        filter = book_info.filter;
+        filter = `book_info.${filter}`;
       }
     }
 
@@ -862,7 +866,7 @@ exports.getAdminReturn = async (req, res, next) => {
       global: await global(),
     });
   } catch (err) {
-    // console.log(err.messge);
+    console.log(err.messge);
     return res.redirect("back");
   }
 };
@@ -884,13 +888,15 @@ exports.postAdminReturn = async (req, res, next) => {
       );
       return res.redirect("back");
     }
+
     if (filter != "all") {
       if (filter == "username") {
-        filter = user_id.filter;
+        filter = `user_id.username`;
       } else {
-        filter = book_info.filter;
+        filter = `book_info.${filter}`;
       }
     }
+
     const searchObj = {};
     searchObj[filter] = value;
     // get the Request counts
@@ -912,7 +918,7 @@ exports.postAdminReturn = async (req, res, next) => {
       global: await global(),
     });
   } catch (err) {
-    // console.log(err.message);
+    console.log(err.message);
     return res.redirect("back");
   }
 };
