@@ -42,7 +42,8 @@
               <td><%=book.book_info.returnDate.toDateString()%></td>
               <td><%=book.book_info.category%></td>
               <td>
-                <% if(book.book_info.isRenewed) { %>
+                <% if(book.book_info.isRenewed) { %> <% if
+                (book.book_info.isReturn == false) { %>
                 <a
                   href="#"
                   class="btn btn-xs btn-warning disabled"
@@ -50,12 +51,27 @@
                   aria-disabled="true"
                   >Renewed!</a
                 >
-                <% } else if(currentUser.violationFlag &&
+                <% } else { %> <% }%> <% } else if(currentUser.violationFlag &&
                 book.book_info.returnDate < Date.now()) { %>
                 <a
                   class="btn btn-xs btn-warning"
                   title="You can't renew book when you are flagged"
                   >Renew</a
+                >
+                <% } else { %> <% } %> <% if (book.book_info.isReturn == true) {
+                %>
+                <a
+                  href="#"
+                  class="btn btn-xs btn-warning disabled"
+                  aria-disabled="true"
+                >
+                  Renew
+                </a>
+                <a
+                  href="#"
+                  class="btn btn-xs btn-info disabled"
+                  aria-disabled="true"
+                  >Return</a
                 >
                 <% } else { %>
                 <form
@@ -69,14 +85,6 @@
                     value="Renew"
                   />
                 </form>
-                <% } %> <% if (book.book_info.isReturn) { %>
-                <a
-                  href=""
-                  class="btn btn-xs btn-info disabled"
-                  aria-disabled="true"
-                  >Return</a
-                >
-                <% } else { %>
                 <form
                   action="/books/return/<%=book.book_info.id%>"
                   method="POST"
