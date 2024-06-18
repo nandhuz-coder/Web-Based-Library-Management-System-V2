@@ -1,16 +1,11 @@
-# Library-Management-System
-
-## Library-Management-System v1 is ending updates
-
-## Library-Management-System v2 [http://localhost:3000]
+# Library Management System V2
 
 ## Following feature will be added in this repo
 
 1. Server side caching
-2. Server side form validation
-3. Test coverage
-4. Scalable image upload
-5. Wiring up CI/CD
+2. Server side validation
+3. Scalable image upload
+4. Wiring up CI/CD
 
 ## Techonologies used in this application
 
@@ -73,7 +68,8 @@ Whole app is divided into three modules.
 - Update admin profile and password
 - Add new admin
 - Delete currently logged in admin profile
-- Apporval and Reject request books
+- Apporval and decline request books
+- Accept and decline retuen request
 
 ### User module functionalities
 
