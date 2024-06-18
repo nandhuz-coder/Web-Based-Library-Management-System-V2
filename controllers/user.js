@@ -284,7 +284,7 @@ exports.postReturnBook = async (req, res, next) => {
         id: Book_return.book_info.id,
         title: Book_return.book_info.title,
       },
-      category: "User-Return",
+      category: "Return apply",
       user_id: {
         id: req.user._id,
         username: req.user.username,

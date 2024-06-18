@@ -17,9 +17,9 @@ const express = require("express"),
   bookRoutes = require("./routes/books"),
   authRoutes = require("./routes/auth");
 
-//const Seed = require('./seed');
+//const Seed = require("./dev/seed");
 // uncomment below line for first time to seed database;
-//Seed(1000);
+//Seed(555);
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 

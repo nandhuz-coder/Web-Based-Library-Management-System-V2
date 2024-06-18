@@ -983,3 +983,52 @@ exports.getAcceptReturn = async (req, res, next) => {
     return res.redirect("back");
   }
 };
+
+//admin -> Decline book Return
+/*  
+    ? work Flow
+    1. fetch return doc by params.id
+    2. fetch user by request.user_id
+    3. fetch book by request.book_info
+    4. remove book object ID from user
+    5. remove return document
+    6. logging activity
+    7. redirect('/admin/bookReturn/all/all/1)
+ */
+
+exports.getDeclineReturn = async (req, res, next) => {
+  try {
+    const request = await Return.findById(req.params.id);
+    const user = await User.findById(request.user_id.id);
+    const book = await Book.findById(request.book_info.id);
+
+    //remove book object ID from user
+    await user.bookReturnInfo.pull(book._id);
+
+    //remove return document
+    await request.deleteOne();
+
+    // logging the activity
+    const activity = new Activity({
+      info: {
+        id: book._id,
+        title: book.title,
+      },
+      category: "Return decline",
+      user_id: {
+        id: user._id,
+        username: user.username,
+      },
+    });
+
+    // await ensure to synchronously save all database alteration
+    await user.save();
+    await activity.save();
+
+    //redirect
+    res.redirect("/admin/bookReturn/all/all/1");
+  } catch (err) {
+    console.log(err);
+    return res.redirect("back");
+  }
+};
