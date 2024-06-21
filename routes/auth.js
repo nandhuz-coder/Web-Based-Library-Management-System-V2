@@ -1,6 +1,7 @@
 const express = require("express"),
   router = express.Router(),
-  passport = require("passport");
+  passport = require("passport"),
+  middleware = require("../middleware/index");
 
 // Import index controller
 const authController = require("../controllers/auth");
@@ -9,12 +10,16 @@ const authController = require("../controllers/auth");
 const User = require("../models/user");
 
 //landing page
-router.get("/", authController.getLandingPage);
+router.get("/", middleware.ifUser, authController.getLandingPage);
 
 //admin login handler
-router.get("/auth/admin-login", authController.getAdminLoginPage);
+router.get(
+  "/auth/admin-login",
+  middleware.ifUser,
+  authController.getAdminLoginPage
+);
 
-router.post("/auth/admin-login", function (req, res, next) {
+router.post("/auth/admin-login", middleware.ifUser, function (req, res, next) {
   try {
     passport.authenticate("local", function (err, user, info) {
       if (err) {
@@ -42,12 +47,24 @@ router.post("/auth/admin-login", function (req, res, next) {
 router.post("/auth/admin-logout", authController.getAdminLogout);
 
 // admin sign up handler
-router.get("/auth/admin-signup", authController.getAdminSignUp);
+router.get(
+  "/auth/admin-signup",
+  middleware.ifUser,
+  authController.getAdminSignUp
+);
 
-router.post("/auth/admin-signup", authController.postAdminSignUp);
+router.post(
+  "/auth/admin-signup",
+  middleware.ifUser,
+  authController.postAdminSignUp
+);
 
 //user login handler
-router.get("/auth/user-login", authController.getUserLoginPage);
+router.get(
+  "/auth/user-login",
+  middleware.ifUser,
+  authController.getUserLoginPage
+);
 
 router.post("/auth/user-login", function (req, res, next) {
   passport.authenticate("local", function (err, user, info) {
@@ -72,8 +89,16 @@ router.post("/auth/user-login", function (req, res, next) {
 router.get("/auth/user-logout", authController.getUserLogout);
 
 //user sign up handler
-router.get("/auth/user-signUp", authController.getUserSignUp);
+router.get(
+  "/auth/user-signUp",
+  middleware.ifUser,
+  authController.getUserSignUp
+);
 
-router.post("/auth/user-signup", authController.postUserSignUp);
+router.post(
+  "/auth/user-signup",
+  middleware.ifUser,
+  authController.postUserSignUp
+);
 
 module.exports = router;
